@@ -20,7 +20,7 @@ class NewsLensUI < Sinatra::Base
     set :session_secret, "something"    # ignore if not using shotgun in development
   end
 
-  API_BASE_URI = 'https://thenewslensapp2.herokuapp.com'
+  API_BASE_URI = 'https://newslensservice.herokuapp.com'
   API_VER = '/api/v1/'
 
   helpers do
