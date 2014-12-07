@@ -1,0 +1,22 @@
+.container
+
+  %form{action: '/news', method: 'get', id: 'user-form'}
+    %input{type: 'text', name: 'number', id: 'home-form-number', placeholder: 'enter a number here...'}
+    %input{type: 'submit', id: 'home-form-submit', class: 'submit', value: 'submit'}
+  %p
+
+  -if @news
+    %table{class: 'center'}
+      %tbody
+        %tr
+          %th Title
+          %th Author
+          %th Date
+        -@news.each do |news|
+          %tr
+            %td
+              = news['title']
+            %td{width: '200'}
+              = news['author']
+            %td{width: '300'}
+              = news['date']

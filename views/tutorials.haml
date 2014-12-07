@@ -1,0 +1,35 @@
+.container
+  %form{:action => '/tutorials', :method => 'post', :id => 'check-form'}
+    %dl{class: 'user-input'}
+      %dt
+        %label{:for => 'check-number'} Number
+      %dd
+        - if @number
+          = find_and_preserve "<textarea cols=\"35\" id=\"check-number\" name=\"number\" rows=\"10\">#{@number.join("\r\n")}</textarea>"
+        - else
+          %textarea{:id => 'check-number', :name => 'number', :rows => '10', :cols => '35'}
+      %dt
+        %label{:for => 'check-number'} Column
+      %dd
+        - if @column
+          = find_and_preserve "<textarea cols=\"35\" id=\"check-column\" name=\"column\" rows=\"10\">#{@column.join("\r\n")}</textarea>"
+        - else
+          %textarea{:id => 'check-column', :name => 'column', :rows => '10', :cols => '35'}
+    .float-clear
+      %input{:type => 'submit', :value => 'submit', :id => 'check-submit', :class => 'submit'}
+  %form{:action => "/tutorials/#{@id}", :method => 'post', :id => 'delete-form'}
+    - if @action == :update
+      %input{:type => 'submit', :name => '_method', :value => 'delete', :class => 'delete'}
+  - if @results
+    %h1 Results
+    %table{class: 'center'}
+      %tbody
+        %tr
+          %th 
+            = @column.join.to_s
+        - @results.each do |news|
+          %tr
+            %td
+              = news[@column.join]
+  - else
+    %p "Enter search criteria above"
