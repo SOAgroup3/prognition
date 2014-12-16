@@ -20,7 +20,8 @@ class NewsLensUI < Sinatra::Base
     set :session_secret, "something"    # ignore if not using shotgun in development
   end
 
-  API_BASE_URI = 'https://newslensservice.herokuapp.com'
+  # API_BASE_URI = 'https://newslensservice.herokuapp.com'
+  API_BASE_URI = 'http://localhost:4567'
   API_VER = '/api/v1/'
 
   helpers do
@@ -100,6 +101,7 @@ class NewsLensUI < Sinatra::Base
       request_url = "#{API_BASE_URI}/api/v1/tutorials/#{params[:id]}"
       options =  { headers: { 'Content-Type' => 'application/json' } }
       result = HTTParty.get(request_url, options)
+      logger.info result
       @results = result
     end
 
