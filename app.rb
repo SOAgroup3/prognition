@@ -20,8 +20,8 @@ class NewsLensUI < Sinatra::Base
     set :session_secret, "something"    # ignore if not using shotgun in development
   end
 
-  # API_BASE_URI = 'https://newslensservice.herokuapp.com'
-  API_BASE_URI = 'http://localhost:4567'
+  API_BASE_URI = 'https://newsdynamo.herokuapp.com'
+  # API_BASE_URI = 'http://localhost:4567'
   API_VER = '/api/v1/'
 
   helpers do
@@ -51,7 +51,7 @@ class NewsLensUI < Sinatra::Base
   end
 
   get '/news/:number' do
-    @news = get_news(params[:number])
+    @news = HTTParty.get api_url("#{params[:number]}.json")###########
     if @news.nil?
       flash[:notice] = 'no news found'
       redirect '/news'
