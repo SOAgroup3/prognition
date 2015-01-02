@@ -43,8 +43,9 @@ a.lightlink {
 
 table, th, td
 {
-	text-align: center;
+	text-align: left;
 	background: #FAFAFA;
+	padding:5px 5px 5px 5px;
 }
 
 table.center {

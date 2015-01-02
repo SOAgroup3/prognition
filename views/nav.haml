@@ -19,3 +19,9 @@
       - else
         %li
           %a{:href => '/tutorials', :id => 'tutorials'} Tutorials
+      - if current_page?('keywords')
+        %li{:class => 'current_page_item'}
+          %a{:href => '/keywords', :id => 'keywords'} Keywords
+      - else
+        %li
+          %a{:href => '/keywords', :id => 'keywords'} Keywords

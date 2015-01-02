@@ -5,7 +5,7 @@ require 'haml'
 require 'sinatra/flash'
 
 require 'httparty'
-
+require 'uri'
 
 class NewsLensUI < Sinatra::Base
   enable :sessions
@@ -17,13 +17,12 @@ class NewsLensUI < Sinatra::Base
   end
 
   configure :development do
-    set :session_secret, "something"    # ignore if not using shotgun in development
+ #   set :session_secret, "something"    # ignore if not using shotgun in development
   end
 
   API_BASE_URI = 'https://newsdynamo.herokuapp.com'
   # API_BASE_URI = 'http://localhost:4567'
   API_VER = '/api/v1/'
-
   helpers do
     def current_page?(path = ' ')
       path_info = request.path_info
@@ -35,13 +34,14 @@ class NewsLensUI < Sinatra::Base
     def api_url(resource)
       URI.join(API_BASE_URI, API_VER, resource).to_s
     end
+
   end
 
   get '/' do
     haml :home
   end
 
-    get '/news' do
+  get '/news' do
     @number = params[:number]
     if @number
       redirect "/news/#{@number}"
@@ -57,6 +57,27 @@ class NewsLensUI < Sinatra::Base
       redirect '/news'
     end
     haml :news
+  end
+
+  get '/keywords' do
+    @word = params[:word]
+    if @word
+      url= "/keywords/#{@word}"
+      url = URI::escape(url) 
+      redirect url
+      return nil
+    end
+    haml :keywords
+  end
+
+  get '/keywords/:word' do
+    urls = URI::escape("keywords/#{params[:word]}.json")
+    @keywords = HTTParty.get api_url(urls)# use URI::escape (http://blog.sina.com.cn/s/blog_628e2ab30101ah0f.html)
+    if @keywords.nil?
+      flash[:notice] = 'no keywords found'
+      redirect '/keywords'
+    end
+    haml :keywords
   end
 
   get '/tutorials' do
