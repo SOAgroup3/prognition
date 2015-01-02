@@ -11,4 +11,4 @@ Authors : LinAnita, peyruchao(peggy) and ethancychen
 > This service could provide users a website to get some important information of the news.
 
 ##Uses 3rd party service: 
-> http://newslensservice.herokuapp.com
+> http://newsdynamo.herokuapp.com
