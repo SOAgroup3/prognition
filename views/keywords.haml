@@ -1,11 +1,11 @@
 .container
 
-  %form{action: '/news', method: 'get', id: 'user-form'}
-    %input{type: 'text', name: 'number', id: 'home-form-number', placeholder: 'enter a number here...'}
+  %form{action: '/keywords', method: 'get', id: 'user-form'}
+    %input{type: 'text', name: 'word', id: 'home-form-keywords', placeholder: 'what do you want to search?'}
     %input{type: 'submit', id: 'home-form-submit', class: 'submit', value: 'submit'}
   %p
 
-  -if @news
+  -if @keywords
     %table{class: 'center'}
       %tbody
         %tr
@@ -13,13 +13,13 @@
           %th Author
           %th Date
           %th Abstract
-        -@news.each do |news|
+        -@keywords.each do |keywords|
           %tr
             %td{width: '200'}
-              = news['title']
+              = keywords['title']
             %td{width: '100'}
-              = news['author']
+              = keywords['author']
             %td{width: '200'}
-              = news['date']
+              = keywords['date']
             %td{width: '300'}
-              = news['somthing']
+              = keywords['somthing']
