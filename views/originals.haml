@@ -1,11 +1,7 @@
 .container
-
-  %form{action: '/news', method: 'get', id: 'user-form'}
-    %input{type: 'text', name: 'number', id: 'home-form-number', placeholder: 'enter a number here...'}
-    %input{type: 'submit', id: 'home-form-submit', class: 'submit', value: 'submit'}
+  %h1 News of the TNL originals today
   %p
-
-  -if @news
+  -if @originals
     %table{class: 'center'}
       %tbody
         %tr
@@ -13,7 +9,7 @@
           %th Author
           %th Date
           %th Abstract
-        -@news.each do |news|
+        -@originals.each do |news|
           %tr
             %td{width: '200'}
               = news['title']

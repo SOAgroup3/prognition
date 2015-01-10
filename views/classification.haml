@@ -1,5 +1,6 @@
 .container
-  %form{:action => '/tutorials', :method => 'post', :id => 'check-form'}
+  %h2 Search the different columns of latest news ("title", "author" or "date")
+  %form{:action => '/classification', :method => 'post', :id => 'check-form'}
     %dl{class: 'user-input'}
       %dt
         %label{:for => 'check-number'} Number
@@ -17,7 +18,7 @@
           %textarea{:id => 'check-column', :name => 'column', :rows => '10', :cols => '35'}
     .float-clear
       %input{:type => 'submit', :value => 'submit', :id => 'check-submit', :class => 'submit'}
-  %form{:action => "/tutorials/#{@id}", :method => 'post', :id => 'delete-form'}
+  %form{:action => "/classification/#{@id}", :method => 'post', :id => 'delete-form'}
     - if @action == :update
       %input{:type => 'submit', :name => '_method', :value => 'delete', :class => 'delete'}
   - if @results
