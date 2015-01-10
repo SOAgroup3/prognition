@@ -38,25 +38,30 @@ class NewsLensUI < Sinatra::Base
   end
 
   get '/' do
-    haml :home
-  end
-
-  get '/news' do
     @number = params[:number]
     if @number
       redirect "/news/#{@number}"
       return nil
     end
-    haml :news
+    haml :home
+  end
+
+  get '/originals' do
+    @originals = HTTParty.get api_url("originals")###########
+    if @originals.nil?
+      flash[:notice] = 'no news found'
+      redirect '/'
+    end
+    haml :originals
   end
 
   get '/news/:number' do
     @news = HTTParty.get api_url("#{params[:number]}.json")###########
     if @news.nil?
       flash[:notice] = 'no news found'
-      redirect '/news'
+      redirect '/'
     end
-    haml :news
+    haml :home
   end
 
   get '/keywords' do
@@ -80,17 +85,18 @@ class NewsLensUI < Sinatra::Base
     haml :keywords
   end
 
-  get '/tutorials' do
+  get '/classification' do
     @action = :create
-    haml :tutorials
+    haml :classification
   end
 
-  post '/tutorials' do
-    request_url = "#{API_BASE_URI}/api/v1/tutorials"
+  post '/classification' do
+    request_url = "#{API_BASE_URI}/api/v1/class"
     number = params[:number].split("\r\n")
     column = params[:column].split("\r\n")
     params_h = {
-      number: number
+      number: number,
+      column: column
     }
 
     options =  {  body: params_h.to_json,
@@ -101,7 +107,7 @@ class NewsLensUI < Sinatra::Base
 
     if (result.code != 200)
       flash[:notice] = 'number not found'
-      redirect '/tutorials'
+      redirect '/classification'
       return nil
     end
 
@@ -110,16 +116,16 @@ class NewsLensUI < Sinatra::Base
     session[:number] = number
     session[:column] = column
     session[:action] = :create
-    redirect "/tutorials/#{id}"
+    redirect "/classification/#{id}"
   end
 
-  get '/tutorials/:id' do
+  get '/classification/:id' do
     if session[:action] == :create
       @results = JSON.parse(session[:result])
       @number = session[:number]
       @column = session[:column]
     else
-      request_url = "#{API_BASE_URI}/api/v1/tutorials/#{params[:id]}"
+      request_url = "#{API_BASE_URI}/api/v1/class/#{params[:id]}"
       options =  { headers: { 'Content-Type' => 'application/json' } }
       result = HTTParty.get(request_url, options)
       logger.info result
@@ -128,13 +134,13 @@ class NewsLensUI < Sinatra::Base
 
     @id = params[:id]
     @action = :update
-    haml :tutorials
+    haml :classification
   end
 
-  delete '/tutorials/:id' do
-    request_url = "#{API_BASE_URI}/api/v1/tutorials/#{params[:id]}"
+  delete '/classification/:id' do
+    request_url = "#{API_BASE_URI}/api/v1/class/#{params[:id]}"
     result = HTTParty.delete(request_url)
-    flash[:notice] = 'record of tutorial deleted'
-    redirect '/tutorials'
+    flash[:notice] = 'record of classification deleted'
+    redirect '/classification'
   end
 end

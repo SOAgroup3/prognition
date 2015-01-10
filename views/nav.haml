@@ -7,21 +7,21 @@
       - else
         %li
           %a{:href => '/', :id => 'home'} Home
-      - if current_page?('news')
+      - if current_page?('originals')
         %li{:class => 'current_page_item'}
-          %a{:href => '/news', :id => 'date'} News
+          %a{:href => '/originals', :id => 'author'} TNL Originals
       - else
         %li
-          %a{:href => '/news', :id => 'date'} News
-      - if current_page?('tutorials')
-        %li{:class => 'current_page_item'}
-          %a{:href => '/tutorials', :id => 'tutorials'} Tutorials
-      - else
-        %li
-          %a{:href => '/tutorials', :id => 'tutorials'} Tutorials
+          %a{:href => '/originals', :id => 'author'} TNL Originals    
       - if current_page?('keywords')
         %li{:class => 'current_page_item'}
           %a{:href => '/keywords', :id => 'keywords'} Keywords
       - else
         %li
           %a{:href => '/keywords', :id => 'keywords'} Keywords
+      - if current_page?('classification')
+        %li{:class => 'current_page_item'}
+          %a{:href => '/classification', :id => 'classification'} Classification
+      - else
+        %li
+          %a{:href => '/classification', :id => 'classification'} Classification

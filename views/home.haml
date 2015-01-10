@@ -1,2 +1,26 @@
-.container
-  %h2 Welcome to The News Lens Grabber
+.container{class: 'first_page'}
+  %h1 Welcome to The News Lens Grabber 
+  %h2 How many latest news to do want to read?
+  %form{action: '/', method: 'get', id: 'user-form'}
+    %input{type: 'text', name: 'number', id: 'home-form-number', placeholder: 'enter a number here...'}
+    %input{type: 'submit', id: 'home-form-submit', class: 'submit', value: 'submit'}
+  %p
+
+  -if @news
+    %table{class: 'center'}
+      %tbody
+        %tr
+          %th Title
+          %th Author
+          %th Date
+          %th Abstract
+        -@news.each do |news|
+          %tr
+            %td{width: '200'}
+              = news['title']
+            %td{width: '100'}
+              = news['author']
+            %td{width: '200'}
+              = news['date']
+            %td{width: '300'}
+              = news['somthing']
