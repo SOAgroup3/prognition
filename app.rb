@@ -1,9 +1,8 @@
 require 'sinatra/base'
 require 'json'
-
 require 'haml'
 require 'sinatra/flash'
-
+require 'chartkick'
 require 'httparty'
 require 'uri'
 
@@ -17,11 +16,10 @@ class NewsLensUI < Sinatra::Base
   end
 
   configure :development do
- #   set :session_secret, "something"    # ignore if not using shotgun in development
+ # set :session_secret "something"    # ignore if not using shotgun in development
   end
 
   API_BASE_URI = 'https://newsdynamo.herokuapp.com'
-  # API_BASE_URI = 'http://localhost:4567'
   API_VER = '/api/v1/'
   helpers do
     def current_page?(path = ' ')
@@ -33,6 +31,12 @@ class NewsLensUI < Sinatra::Base
 
     def api_url(resource)
       URI.join(API_BASE_URI, API_VER, resource).to_s
+    end
+
+    def author_class(someone)
+      authors = Hash.new(0)
+      someone.each { |column| authors[column['author']] += 1 }
+      authors
     end
 
   end
@@ -47,7 +51,8 @@ class NewsLensUI < Sinatra::Base
   end
 
   get '/originals' do
-    @originals = HTTParty.get api_url("originals")###########
+    @originals = HTTParty.get api_url("newest_original")###########
+    @authors = author_class(@originals)
     if @originals.nil?
       flash[:notice] = 'no news found'
       redirect '/'
