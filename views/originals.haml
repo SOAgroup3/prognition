@@ -1,7 +1,12 @@
+%head
+  %script{:src => '//www.google.com/jsapi', :type => 'text/javascript'}
+  %script{:src => '/chartkick.js', :type => 'text/javascript'}
+
 .container
   %h1 News of the TNL originals today
   %p
   -if @originals
+    = pie_chart @authors, id: "class", height: "300px"
     %table{class: 'center'}
       %tbody
         %tr
